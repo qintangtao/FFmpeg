@@ -1,0 +1,15 @@
+rm -rf libavutil/avconfig.h
+rm -rf libavfilter/filter_list.c
+rm -rf libavcodec/codec_list.c
+rm -rf libavcodec/parser_list.c
+rm -rf libavcodec/bsf_list.c
+rm -rf libavformat/demuxer_list.c
+rm -rf libavformat/muxer_list.c
+rm -rf libavdevice/indev_list.c
+rm -rf libavdevice/outdev_list.c
+rm -rf libavformat/protocol_list.c
+rm -rf ffbuild/config.sh
+rm -rf config.asm
+rm -rf config.h
+rm -rf config_components.h
+rm -rf test.obj
