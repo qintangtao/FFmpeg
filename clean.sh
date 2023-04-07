@@ -20,3 +20,5 @@ rm -rf config.h
 rm -rf config_components.h
 rm -rf test.obj
 rm -rf .version
+rm -rf android
+rm -rf tmpdir
