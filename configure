@@ -6633,7 +6633,7 @@ elif enabled libmfx; then
 #   Cflags: -I${includedir}
 # So add -I${includedir}/mfx to CFLAGS
       { check_pkg_config libmfx "libmfx >= 1.28 libmfx < 2.0" "mfx/mfxvideo.h" MFXInit && add_cflags -I${libmfx_incdir}/mfx; } ||
-      { require libmfx "mfxvideo.h mfxdefs.h" MFXInit "-llibmfx $advapi32_extralibs" &&
+      { require libmfx "mfxvideo.h mfxdefs.h" MFXInit "-llibmfx $advapi32_extralibs $ole32_extralibs" &&
         { test_cpp_condition mfxdefs.h "MFX_VERSION >= 1028 && MFX_VERSION < 2000" || die "ERROR: libmfx version must be >= 1.28 and < 2.0"; }  &&
         warn "using libmfx without pkg-config"; } } &&
     warn "build FFmpeg against libmfx 1.x, obsolete features of libmfx such as OPAQUE memory,\n"\
