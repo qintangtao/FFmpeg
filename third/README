@@ -1,0 +1,17 @@
+支持cuda的环境准备
+1、https://developer.nvidia.com
+	下载cuda-10.1-download-archive-update2
+	安装后才能configure才能使用nvcc命令
+
+2、 https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
+	CUDA Toolkit and Corresponding Driver Versions
+	查看对应的版本
+
+
+如果FFmpeg路径有变化，需要修改一下几个地方：
+
+1、nv-sdk-v10.0/lib/pkgconfig/ffnvcodec.pc
+  	prefix=需要设置成当前路径
+
+2、 libx264-x64/lib/pkgconfig/x264.pc
+	prefix=需要设置成当前路径
