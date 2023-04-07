@@ -76,13 +76,17 @@ int main(int argc, char **argv)
     AVFrame *frame;
     AVPacket *pkt;
     uint8_t endcode[] = { 0, 0, 1, 0xb7 };
+    int seconds = 1;
 
     if (argc <= 2) {
-        fprintf(stderr, "Usage: %s <output file> <codec name>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <output file> <codec name> [seconds]\n", argv[0]);
         exit(0);
     }
     filename = argv[1];
     codec_name = argv[2];
+
+    if (argc >= 4)
+        seconds = atoi(argv[3]);
 
     /* find the mpeg1video encoder */
     codec = avcodec_find_encoder_by_name(codec_name);
@@ -152,7 +156,8 @@ int main(int argc, char **argv)
     }
 
     /* encode 1 second of video */
-    for (i = 0; i < 25; i++) {
+    seconds = seconds*25;
+    for (i = 0; i < seconds; i++) {
         fflush(stdout);
 
         /* Make sure the frame data is writable.
