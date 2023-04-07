@@ -9,6 +9,12 @@ rm -rf libavdevice/indev_list.c
 rm -rf libavdevice/outdev_list.c
 rm -rf libavformat/protocol_list.c
 rm -rf ffbuild/config.sh
+rm -rf ffbuild/.config
+rm -rf ffbuild/bin2c_host.d
+rm -rf ffbuild/bin2c_host.o
+rm -rf ffbuild/config.fate
+rm -rf ffbuild/config.log
+rm -rf ffbuild/config.mak
 rm -rf config.asm
 rm -rf config.h
 rm -rf config_components.h
