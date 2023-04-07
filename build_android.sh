@@ -99,8 +99,8 @@ configure()
     --enable-gpl --enable-nonfree --enable-version3 --disable-iconv \
     --enable-jni \
     --enable-mediacodec \
-    --disable-decoders --enable-decoder=aac --enable-decoder=h264_mediacodec --enable-decoder=hevc_mediacodec \
-    --disable-encoders --enable-encoder=aac --enable-encoder=h264_mediacodec --enable-encoder=hevc_mediacodec \
+    --disable-decoders --enable-decoder=aac --enable-decoder=h264_mediacodec --enable-decoder=hevc_mediacodec --enable-decoder=mpeg4_mediacodec --enable-decoder=vp9_mediacodec --enable-decoder=h264 \
+    --disable-encoders --enable-encoder=aac --enable-encoder=h264_mediacodec --enable-encoder=hevc_mediacodec --enable-encoder=mpeg4_mediacodec --enable-encoder=vp9_mediacodec \
     --disable-hwaccels --enable-hwaccel=h264_mediacodec \
     --disable-demuxers --enable-demuxer=rtsp --enable-demuxer=rtp --enable-demuxer=h264 \
     --disable-muxers --enable-muxer=rtsp --enable-muxer=rtp --enable-muxer=h264 \
@@ -132,10 +132,10 @@ build_one()
 #the entry
 build_all()
 {
-    build_one armeabi-v7a
+    #build_one armeabi-v7a
     build_one arm64-v8a
-    #build_one x86
-    #build_one x86_64
+    build_one x86
+    build_one x86_64
 }
 
 #call the entry
