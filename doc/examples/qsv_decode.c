@@ -124,7 +124,7 @@ int main(int argc, char **argv)
     AVDictionary *opts = NULL;
 
     if (argc < 3) {
-        fprintf(stderr, "Usage: %s <input file> <output file> [child device type]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <input file> <output file> [child device type] [child device]\n", argv[0]);
         fprintf(stderr, "child device type: vaapi, d3d11va, dxva2\n");
         return 1;
     }
@@ -153,7 +153,10 @@ int main(int argc, char **argv)
     /* open the hardware device */
     if (argc > 3)
         av_dict_set(&opts, "child_device_type", argv[3], 0);
-    
+
+    if (argc > 4)
+        av_dict_set(&opts, "child_device", argv[4], 0);
+
     ret = av_hwdevice_ctx_create(&device_ref, AV_HWDEVICE_TYPE_QSV,
                                  "auto", opts, 0);
     if (ret < 0) {
