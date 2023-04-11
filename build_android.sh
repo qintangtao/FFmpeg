@@ -36,7 +36,7 @@ configure()
     echo "NDK = $NDK"
     #get the parameter
     TARGET_CPU=$1
-    mkdir -p `dirname $0`/android/$TARGET_CPU
+    mkdir -p `dirname $0`/install/android/$TARGET_CPU
     if [ "$TARGET_CPU" == "x86" ];then
         echo "build i686 32bit lib"
         ARCH=x86
@@ -74,7 +74,7 @@ configure()
         #translate the cpu string
         CPU="armv8-a"
     fi
-    PREFIX=`dirname $0`/android/$TARGET_CPU
+    PREFIX=`dirname $0`/install/android/$TARGET_CPU
     echo "try configure $TARGET_CPU and prefix is $PREFIX"
     ./configure \
     --ln_s="cp -rf" \
@@ -132,7 +132,7 @@ build_one()
 #the entry
 build_all()
 {
-    #build_one armeabi-v7a
+    build_one armeabi-v7a
     build_one arm64-v8a
     build_one x86
     build_one x86_64
