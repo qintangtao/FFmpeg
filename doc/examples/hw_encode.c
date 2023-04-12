@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
             hw_pix_fmt = config->pix_fmt;
             hw_device_type = config->device_type;
             err++;
-            printf("\t %d: Device type name '%s', Pixel format '%s'\n", i, av_hwdevice_get_type_name(hw_device_type), av_get_pix_fmt_name(hw_pix_fmt));
+            printf("\t %d: Device name: %-10s, Pixel format: %s\n", i, av_hwdevice_get_type_name(hw_device_type), av_get_pix_fmt_name(hw_pix_fmt));
         }
     }
 
