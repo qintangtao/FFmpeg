@@ -7,7 +7,7 @@ FFMPEG_LIBS=    libavdevice                        \
                 libswscale                         \
                 libavutil                          \
 
-CFLAGS += -Wall -g -I../../ -I../../third/libmfx-msvc-x64/include/mfx
+CFLAGS += -Wall -g -I../../ -I../../third/libvpl-msvc-x64/include/vpl
 CFLAGS := $(shell pkg-config --cflags $(FFMPEG_LIBS)) $(CFLAGS)
 LDLIBS := $(shell pkg-config --libs $(FFMPEG_LIBS)) $(LDLIBS)
 
@@ -27,7 +27,9 @@ EXAMPLES=\
                 demux_decode                       \
                 encode_audio                       \
                 encode_video                       \
-                encode_video_nv12                       \
+                encode_video_nv12                  \
+                encode_video_yuv420p               \
+                hw_encode                          \
                 nvenc_encode                       \
                 qsv_encode                         \
                 qsv_decode                         \
