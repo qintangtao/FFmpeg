@@ -65,6 +65,7 @@ int main(int argc, char **argv)
 {
     const AVCodec *codec;
     AVCodecContext *c= NULL;
+    AVDictionary *opts = NULL;
     int i, ret, err, width, height, size;
     FILE *fin, *fout;
     AVFrame *frame;
@@ -134,13 +135,15 @@ int main(int argc, char **argv)
         }
     }
 
+    // h264_mf  
+    av_dict_set(&opts, "rate_control", "quality", 0);
+
     /* open it */
-    ret = avcodec_open2(c, codec, NULL);
+    ret = avcodec_open2(c, codec, &opts);
     if (ret < 0) {
         fprintf(stderr, "Could not open codec: %s\n", av_err2str(ret));
         exit(1);
     }
-
 
     frame = av_frame_alloc();
     if (!frame) {
@@ -193,6 +196,7 @@ int main(int argc, char **argv)
     fclose(fout);
     fclose(fin);
 
+    av_dict_free(&opts);
     avcodec_free_context(&c);
     av_frame_free(&frame);
     av_packet_free(&pkt);
