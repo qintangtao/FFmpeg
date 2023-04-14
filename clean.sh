@@ -15,6 +15,7 @@ rm -rf ffbuild/bin2c_host.o
 rm -rf ffbuild/config.fate
 rm -rf ffbuild/config.log
 rm -rf ffbuild/config.mak
+rm -rf doc/config.texi
 rm -rf config.asm
 rm -rf config.h
 rm -rf config_components.h
