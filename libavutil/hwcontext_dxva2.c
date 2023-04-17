@@ -43,6 +43,10 @@ typedef HRESULT WINAPI pCreateDeviceManager9(UINT *, IDirect3DDeviceManager9 **)
                             D3DCREATE_MULTITHREADED | \
                             D3DCREATE_FPU_PRESERVE)
 
+#define FF_D3DCREATE_HARDWARE_FLAGS (D3DCREATE_HARDWARE_VERTEXPROCESSING | \
+                                    D3DCREATE_MULTITHREADED | \
+                                    D3DCREATE_FPU_PRESERVE)
+
 static const D3DPRESENT_PARAMETERS dxva2_present_params = {
     .Windowed         = TRUE,
     .BackBufferWidth  = 640,
@@ -440,10 +444,35 @@ static void dxva2_device_free(AVHWDeviceContext *ctx)
     av_freep(&ctx->user_opaque);
 }
 
-static int dxva2_device_create9(AVHWDeviceContext *ctx, UINT adapter)
+static void init_d3dpp(D3DPRESENT_PARAMETERS *d3dpp, AVDictionary *opts)
+{
+    const AVDictionaryEntry *param;
+
+    param = av_dict_get(opts, "hwnd", NULL, 0);
+    if (!param)
+        return;
+
+    d3dpp->hDeviceWindow = _atoi64(param->value);
+
+    param = av_dict_get(opts, "width", NULL, 0);
+    if (param)
+        d3dpp->BackBufferWidth = atoi(param->value);
+
+    param = av_dict_get(opts, "height", NULL, 0);
+    if (param)
+        d3dpp->BackBufferHeight = atoi(param->value);
+
+    d3dpp->EnableAutoDepthStencil = FALSE;
+    d3dpp->FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+    d3dpp->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+}
+
+static int dxva2_device_create9(AVHWDeviceContext *ctx, UINT adapter, AVDictionary *opts)
 {
     DXVA2DevicePriv *priv = ctx->user_opaque;
     D3DPRESENT_PARAMETERS d3dpp = dxva2_present_params;
+    DWORD dwBehaviorFlags = FF_D3DCREATE_FLAGS;
+    D3DCAPS9 caps;
     D3DDISPLAYMODE d3ddm;
     HRESULT hr;
     pDirect3DCreate9 *createD3D = (pDirect3DCreate9 *)dlsym(priv->d3dlib, "Direct3DCreate9");
@@ -462,8 +491,19 @@ static int dxva2_device_create9(AVHWDeviceContext *ctx, UINT adapter)
 
     d3dpp.BackBufferFormat = d3ddm.Format;
 
-    hr = IDirect3D9_CreateDevice(priv->d3d9, adapter, D3DDEVTYPE_HAL, GetDesktopWindow(),
-                                 FF_D3DCREATE_FLAGS,
+    init_d3dpp(&d3dpp, opts);
+
+    if (d3dpp.hDeviceWindow) {
+        hr = IDirect3D9_GetDeviceCaps(priv->d3d9, adapter, D3DDEVTYPE_HAL, &caps);
+        if (SUCCEEDED(hr)) {
+            if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
+                dwBehaviorFlags = FF_D3DCREATE_HARDWARE_FLAGS;
+        }
+    }
+    
+    hr = IDirect3D9_CreateDevice(priv->d3d9, adapter, D3DDEVTYPE_HAL, 
+                                 d3dpp.hDeviceWindow ? d3dpp.hDeviceWindow : GetDesktopWindow(),
+                                 dwBehaviorFlags,
                                  &d3dpp, &priv->d3d9device);
     if (FAILED(hr)) {
         av_log(ctx, AV_LOG_ERROR, "Failed to create Direct3D device\n");
@@ -473,13 +513,16 @@ static int dxva2_device_create9(AVHWDeviceContext *ctx, UINT adapter)
     return 0;
 }
 
-static int dxva2_device_create9ex(AVHWDeviceContext *ctx, UINT adapter)
+static int dxva2_device_create9ex(AVHWDeviceContext *ctx, UINT adapter, AVDictionary *opts)
 {
     DXVA2DevicePriv *priv = ctx->user_opaque;
     D3DPRESENT_PARAMETERS d3dpp = dxva2_present_params;
+    DWORD dwBehaviorFlags = FF_D3DCREATE_FLAGS;
+    D3DCAPS9 caps;
     D3DDISPLAYMODEEX modeex = {0};
     IDirect3D9Ex *d3d9ex = NULL;
     IDirect3DDevice9Ex *exdev = NULL;
+    const AVDictionaryEntry *param;
     HRESULT hr;
     pDirect3DCreate9Ex *createD3DEx = (pDirect3DCreate9Ex *)dlsym(priv->d3dlib, "Direct3DCreate9Ex");
     if (!createD3DEx)
@@ -498,8 +541,19 @@ static int dxva2_device_create9ex(AVHWDeviceContext *ctx, UINT adapter)
 
     d3dpp.BackBufferFormat = modeex.Format;
 
-    hr = IDirect3D9Ex_CreateDeviceEx(d3d9ex, adapter, D3DDEVTYPE_HAL, GetDesktopWindow(),
-                                     FF_D3DCREATE_FLAGS,
+    init_d3dpp(&d3dpp, opts);
+
+    if (d3dpp.hDeviceWindow) {
+        hr = IDirect3D9Ex_GetDeviceCaps(d3d9ex, adapter, D3DDEVTYPE_HAL, &caps);
+        if (SUCCEEDED(hr)) {
+            if (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
+                dwBehaviorFlags = FF_D3DCREATE_HARDWARE_FLAGS;
+        }
+    }
+
+    hr = IDirect3D9Ex_CreateDeviceEx(d3d9ex, adapter, D3DDEVTYPE_HAL,
+                                     d3dpp.hDeviceWindow ? d3dpp.hDeviceWindow : GetDesktopWindow(),
+                                     dwBehaviorFlags,
                                      &d3dpp, NULL, &exdev);
     if (FAILED(hr)) {
         IDirect3D9Ex_Release(d3d9ex);
@@ -553,9 +607,9 @@ static int dxva2_device_create(AVHWDeviceContext *ctx, const char *device,
         return AVERROR_UNKNOWN;
     }
 
-    if (dxva2_device_create9ex(ctx, adapter) < 0) {
+    if (dxva2_device_create9ex(ctx, adapter, opts) < 0) {
         // Retry with "classic" d3d9
-        err = dxva2_device_create9(ctx, adapter);
+        err = dxva2_device_create9(ctx, adapter, opts);
         if (err < 0)
             return err;
     }
