@@ -1,9 +1,13 @@
 #https://blog.csdn.net/u012117034/article/details/123131144
 
-export PKG_CONFIG_PATH=/i/github/FFmpeg/third/libx264-x64/lib/pkgconfig:/i/github/FFmpeg/third/nv-sdk-v10.0/lib/pkgconfig:$PKG_CONFIG_PATH
+FFMPEG_PATH=`pwd`
+echo $FFMPEG_PATH
+
+export PKG_CONFIG_PATH=$FFMPEG_PATH/third/libx264-x64/lib/pkgconfig:$FFMPEG_PATH/third/nv-sdk-v10.1/lib/pkgconfig:$PKG_CONFIG_PATH
 echo $PKG_CONFIG_PATH
 
-./configure --prefix=/f/ff/usr/ffmpeg-6.0/x86_x64/nv-10.0-qsv \
+
+./configure --prefix=$FFMPEG_PATH/install/win/x86_x64/nv-10.0-qsv-mfx \
 			--enable-shared \
 			--disable-static \
     		--enable-gpl \
@@ -13,8 +17,8 @@ echo $PKG_CONFIG_PATH
 			--enable-libnpp \
 			--enable-nonfree \
 			--toolchain=msvc \
-			--extra-cflags="-I/i/github/FFmpeg/third/libx264-x64/include -I/i/github/FFmpeg/third/nv-sdk-v10.0/include/cuda -I/i/github/FFmpeg/third/libmfx-msvc-x64/include/mfx" \
-		    --extra-ldflags="-LIBPATH:/i/github/FFmpeg/third/libx264-x64/lib -LIBPATH:/i/github/FFmpeg/third/nv-sdk-v10.0/lib/cuda/x64 -LIBPATH:/i/github/FFmpeg/third/libmfx-msvc-x64/lib"
+			--extra-cflags="-I$FFMPEG_PATH/third/libx264-x64/include -I$FFMPEG_PATH/third/nv-sdk-v10.0/include/cuda -I$FFMPEG_PATH/third/libmfx-msvc-x64/include/mfx" \
+		    --extra-ldflags="-LIBPATH:$FFMPEG_PATH/third/libx264-x64/lib -LIBPATH:$FFMPEG_PATH/third/nv-sdk-v10.0/lib/cuda/x64 -LIBPATH:$FFMPEG_PATH/third/libmfx-msvc-x64/lib"
 
 
 # make 前需要把config.h文件中的中文删除掉
