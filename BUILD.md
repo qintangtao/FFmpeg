@@ -60,7 +60,8 @@ msys2_shell.cmd -mingw32
 ```
 msys2_shell.cmd -mingw64
 ```
-> 使用 "where cl" 和 "where link" 检查编译工具是否配置正常。
+
+>  使用 "where cl" 和 "where link" 检查编译工具是否配置正常。
 
 ```
 # where link
@@ -77,4 +78,6 @@ E:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.1
 make -j8
 make install
 ```
+
+---
 
