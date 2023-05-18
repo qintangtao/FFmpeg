@@ -3,10 +3,10 @@
 FFMPEG_PATH=`pwd`
 echo $FFMPEG_PATH
 
-export PKG_CONFIG_PATH=$FFMPEG_PATH/third/libx264-x64/lib/pkgconfig:$FFMPEG_PATH/third/nv-sdk-v10.1/lib/pkgconfig:$FFMPEG_PATH/third/libvpl-msvc-x64/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=$FFMPEG_PATH/third/libx264-x64_static_msvc/lib/pkgconfig:$FFMPEG_PATH/third/nv-sdk-v10.1/lib/pkgconfig:$FFMPEG_PATH/third/libvpl-msvc-x64/lib/pkgconfig:$PKG_CONFIG_PATH
 echo $PKG_CONFIG_PATH
 
-./configure --prefix=$FFMPEG_PATH/install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder \
+./configure --prefix=$FFMPEG_PATH/install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static \
 			--enable-gpl \
 			--enable-cuda-nvcc \
 			--enable-libvpl \
@@ -45,5 +45,5 @@ echo $PKG_CONFIG_PATH
 		    --disable-manpages \
 		    --disable-podpages \
 		    --disable-txtpages \
-		    --extra-cflags="-I$FFMPEG_PATH/third/libx264-x64/include -I$FFMPEG_PATH/third/nv-sdk-v10.1/include/cuda" \
-		    --extra-ldflags="-LIBPATH:$FFMPEG_PATH/third/libx264-x64/lib -LIBPATH:$FFMPEG_PATH/third/nv-sdk-v10.1/lib/cuda/x64"
+		    --extra-cflags="-I$FFMPEG_PATH/third/nv-sdk-v10.1/include/cuda" \
+		    --extra-ldflags="-LIBPATH:$FFMPEG_PATH/third/nv-sdk-v10.1/lib/cuda/x64"

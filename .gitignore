@@ -88,3 +88,6 @@
 /install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder/include
 /install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder/lib
 /install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder/share
+/install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static/include
+/install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static/lib
+/install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static/share
