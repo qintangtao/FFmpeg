@@ -91,3 +91,15 @@
 /install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static/include
 /install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static/lib
 /install/win/x86_x64/nv-10.1-qsv-vpl-h264-encoder-x264-static/share
+/install/linux/x86/h264-decoder-tcp-static/include
+/install/linux/x86/h264-decoder-tcp-static/lib
+/install/linux/x86/h264-decoder-tcp-static/share
+/install/linux/hisiv200/h264-decoder-tcp-static/include
+/install/linux/hisiv200/h264-decoder-tcp-static/lib
+/install/linux/hisiv200/h264-decoder-tcp-static/share
+/third/libx264-x86_static_linux/bin
+/third/libx264-x86_static_linux/include
+/third/libx264-x86_static_linux/lib
+/install/linux/x86/h264-encoder-x264-static/lib
+/install/linux/x86/h264-encoder-x264-static/share
+/install/linux/x86/h264-encoder-x264-static/include
