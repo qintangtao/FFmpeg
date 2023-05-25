@@ -103,3 +103,10 @@
 /install/linux/x86/h264-encoder-x264-static/lib
 /install/linux/x86/h264-encoder-x264-static/share
 /install/linux/x86/h264-encoder-x264-static/include
+/install/linux/x86/h264-tcp-x264-static/lib
+/install/linux/x86/h264-tcp-x264-static/share
+/install/linux/x86/h264-tcp-x264-static/include
+/install/android-static/x86
+/install/android-static/x86_64
+/install/android-static/arm64-v8a
+/install/android-static/armeabi-v7a

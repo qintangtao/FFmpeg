@@ -134,7 +134,7 @@ build_one()
 build_all()
 {
     build_one armeabi-v7a
-    #build_one arm64-v8a
+    build_one arm64-v8a
     build_one x86
     build_one x86_64
 }
