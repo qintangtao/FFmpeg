@@ -75,7 +75,7 @@ configure()
         #translate the cpu string
         CPU="armv8-a"
     fi
-    PREFIX=`dirname $0`/install/android/$TARGET_CPU
+    PREFIX=`dirname $0`/install/android-static/$TARGET_CPU
     echo "try configure $TARGET_CPU and prefix is $PREFIX"
     ./configure \
     --ln_s="cp -rf" \
@@ -90,8 +90,8 @@ configure()
     --disable-x86asm \
     --disable-asm \
     --enable-cross-compile \
-    --enable-shared \
-    --disable-static \
+    --disable-shared \
+    --enable-static \
     --enable-runtime-cpudetect \
     --disable-doc \
     --disable-programs \
@@ -133,10 +133,10 @@ build_one()
 #the entry
 build_all()
 {
-    #build_one armeabi-v7a
-    build_one arm64-v8a
-    #build_one x86
-    #build_one x86_64
+    build_one armeabi-v7a
+    #build_one arm64-v8a
+    build_one x86
+    build_one x86_64
 }
 
 #call the entry
